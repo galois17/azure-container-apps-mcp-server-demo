@@ -80,9 +80,21 @@ async def get_alerts(state: str) -> str:
 @mcp.tool()
 async def get_forecast(latitude: float, longitude: float) -> str:
     """
-    Get a concise 5-period forecast for a given latitude and longitude.
-    Primary source: National Weather Service API.
-    Fallback: Open-Meteo API if NWS is unavailable.
+    Retrieve a concise weather forecast for a given geographic location.
+
+    This function serves as the main MCP tool for weather retrieval. It first attempts
+    to query the National Weather Service (NWS) API for a detailed, multi-period forecast.
+    If the NWS API is unavailable or returns no data, the function automatically falls
+    back to the Open-Meteo API to ensure a response is still provided.
+
+    Args:
+        latitude (float): The latitude of the location in decimal degrees.
+        longitude (float): The longitude of the location in decimal degrees.
+
+    Returns:
+        str: A formatted, human-readable forecast summary. The output includes up to
+        five forecast periods from NWS when available, or a current conditions summary
+        from Open-Meteo if the fallback API is used.
     """
     try:
         # Primary: National Weather Service
